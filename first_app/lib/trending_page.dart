@@ -1,20 +1,46 @@
 import 'package:flutter/material.dart';
-import 'package:carousel_slider/carousel_slider.dart'; // Only need to import CarouselSlider
+import 'dart:io'; // For File handling
+import 'package:image_picker/image_picker.dart'; // For image picker
 
-class TrendingPage extends StatelessWidget {
+class TrendingPage extends StatefulWidget {
   const TrendingPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    // List of image URLs
-    final List<String> imageUrls = [
-      "https://via.placeholder.com/400x200.png?text=Image+1",
-      "https://via.placeholder.com/400x200.png?text=Image+2",
-      "https://via.placeholder.com/400x200.png?text=Image+3",
-      "https://via.placeholder.com/400x200.png?text=Image+4",
-      "https://via.placeholder.com/400x200.png?text=Image+5",
-    ];
+  _TrendingPageState createState() => _TrendingPageState();
+}
 
+class _TrendingPageState extends State<TrendingPage> {
+  List<File> selectedImages = []; // List to store selected images
+
+  // Asset image list
+  final List<String> assetImages = [
+    "assets/images/1.jpg",
+    "assets/images/2.jpg",
+    "assets/images/3.jpg",
+    "assets/images/4.jpg",
+    "assets/images/5.jpg",
+    "assets/images/6.jpg",
+    "assets/images/7.jpg",
+    "assets/images/8.jpg",
+    "assets/images/9.jpg",
+    "assets/images/10.jpg",
+  ];
+
+  // Method to pick an image
+  Future<void> _pickImage() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? pickedFile =
+        await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      setState(() {
+        selectedImages.add(File(pickedFile.path)); // Add picked image to list
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Trending Now'),
@@ -28,23 +54,20 @@ class TrendingPage extends StatelessWidget {
           // Search Bar
           const SearchBar(),
 
-          // Scrolling Image Carousel
-          Expanded(child: ImageCarousel(imageUrls: imageUrls)),
-
-          // Login Button at the bottom of the page
+          // Upload Image Button
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: ElevatedButton(
-              onPressed: () {
-                // You can add your login navigation logic here
-                showDialog(
-                  context: context,
-                  builder: (_) => const AlertDialog(
-                    title: Text('Login button clicked'),
-                  ),
-                );
-              },
-              child: const Text('Login'),
+              onPressed: _pickImage, // Trigger image selection
+              child: const Text('Upload Image'),
+            ),
+          ),
+
+          // Display Image List
+          Expanded(
+            child: ImageList(
+              selectedImages: selectedImages,
+              assetImages: assetImages,
             ),
           ),
         ],
@@ -53,7 +76,7 @@ class TrendingPage extends StatelessWidget {
   }
 }
 
-// Model 1: Trending Header
+// Trending Header
 class TrendingHeader extends StatelessWidget {
   const TrendingHeader({super.key});
 
@@ -94,7 +117,7 @@ class TrendingHeader extends StatelessWidget {
   }
 }
 
-// Model 2: Search Bar
+// Search Bar
 class SearchBar extends StatelessWidget {
   const SearchBar({super.key});
 
@@ -116,60 +139,73 @@ class SearchBar extends StatelessWidget {
   }
 }
 
-// Model 3: Image Carousel
-class ImageCarousel extends StatelessWidget {
-  final List<String> imageUrls;
+// Image List
+class ImageList extends StatelessWidget {
+  final List<File> selectedImages;
+  final List<String> assetImages;
 
-  const ImageCarousel({super.key, required this.imageUrls});
+  const ImageList({
+    super.key,
+    required this.selectedImages,
+    required this.assetImages,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return CarouselSlider(
-      items: imageUrls.map((url) {
-        return Builder(
-          builder: (BuildContext context) {
-            return Container(
-              margin: const EdgeInsets.symmetric(horizontal: 5),
+    return ListView(
+      children: [
+        // Display Asset Images
+        ...assetImages.map((assetPath) => Container(
+              margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
                 color: Colors.grey[200],
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(12),
-                child: url.isNotEmpty
-                    ? Image.network(
-                        url,
-                        fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) {
-                          return const Center(
-                            child: Icon(
-                              Icons.broken_image,
-                              size: 50,
-                              color: Colors.grey,
-                            ),
-                          );
-                        },
-                      )
-                    : const Center(
-                        child: Icon(
-                          Icons.image_not_supported,
-                          size: 50,
-                          color: Colors.grey,
-                        ),
+                child: Image.asset(
+                  assetPath,
+                  fit: BoxFit.cover,
+                  height: 200, // Fixed height for each image
+                  errorBuilder: (context, error, stackTrace) {
+                    return const Center(
+                      child: Icon(
+                        Icons.broken_image,
+                        size: 50,
+                        color: Colors.grey,
                       ),
+                    );
+                  },
+                ),
               ),
-            );
-          },
-        );
-      }).toList(),
-      options: CarouselOptions(
-        height: 200,
-        autoPlay: true,
-        autoPlayInterval: const Duration(seconds: 5),
-        enlargeCenterPage: true,
-        viewportFraction: 0.8,
-        aspectRatio: 16 / 9,
-      ),
+            )),
+
+        // Display Selected Images
+        ...selectedImages.map((file) => Container(
+              margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                color: Colors.grey[200],
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: Image.file(
+                  file, // Load the selected image file
+                  fit: BoxFit.cover,
+                  height: 200, // Fixed height for each image
+                  errorBuilder: (context, error, stackTrace) {
+                    return const Center(
+                      child: Icon(
+                        Icons.broken_image,
+                        size: 50,
+                        color: Colors.grey,
+                      ),
+                    );
+                  },
+                ),
+              ),
+            )),
+      ],
     );
   }
 }
