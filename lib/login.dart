@@ -27,7 +27,19 @@ class _AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       title: const Text('Eclectic'),
       centerTitle: true,
-      backgroundColor: Colors.blue.shade400, // Soft blue color for the app bar
+      flexibleSpace: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Colors.pink.shade300,
+              Colors.blue.shade200
+            ], // Reduced blue color
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            stops: [0.0, 1.0],
+          ),
+        ),
+      ),
     );
   }
 
@@ -52,13 +64,8 @@ class _BodyWidget extends StatelessWidget {
           ),
         ),
         child: Center(
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.grey.shade200, // Light gray color for the login box
-              borderRadius: BorderRadius.circular(15),
-            ),
+          child: Padding(
             padding: const EdgeInsets.all(20),
-            width: 350,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: const [
@@ -66,7 +73,7 @@ class _BodyWidget extends StatelessWidget {
                 SizedBox(height: 20),
                 _LoginButton(),
                 SizedBox(height: 20),
-                _SignUpLink(),
+                _CreateAccountButton(), // New "Create Account" Button
               ],
             ),
           ),
@@ -145,31 +152,26 @@ class _LoginButton extends StatelessWidget {
   }
 }
 
-class _SignUpLink extends StatelessWidget {
-  const _SignUpLink();
+class _CreateAccountButton extends StatelessWidget {
+  const _CreateAccountButton();
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        const Text(
-          'Login to your account? ',
-          style: TextStyle(color: Colors.white),
+    return ElevatedButton(
+      onPressed: () {
+        // Handle "Create Account" action here
+      },
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.blueAccent, // Different background color
+        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
         ),
-        GestureDetector(
-          onTap: () {
-            debugPrint("Redirect to sign-up page");
-          },
-          child: const Text(
-            'Create one if you don\'t have',
-            style: TextStyle(
-              color: Colors.blueAccent,
-              decoration: TextDecoration.underline,
-            ),
-          ),
-        ),
-      ],
+      ),
+      child: const Text(
+        'Create Account if you don\'t have one',
+        style: TextStyle(color: Colors.white), // White text color for contrast
+      ),
     );
   }
 }
