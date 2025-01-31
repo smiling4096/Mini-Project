@@ -27,6 +27,7 @@ class _AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       title: const Text('Eclectic'),
       centerTitle: true,
+      backgroundColor: Colors.blue.shade400, // Soft blue color for the app bar
     );
   }
 
@@ -41,25 +42,34 @@ class _BodyWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
+        width: double.infinity,
+        height: double.infinity,
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Colors.pink.shade200, Colors.purple.shade400],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
+          image: DecorationImage(
+            image: AssetImage(
+                'assets/images/11.jpg'), // Use 11.jpg as background image
+            fit: BoxFit.cover,
           ),
-          borderRadius: BorderRadius.circular(15),
         ),
-        padding: const EdgeInsets.all(20),
-        width: 350,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            _LoginForm(),
-            SizedBox(height: 20),
-            _LoginButton(),
-            SizedBox(height: 20),
-            _SignUpLink(),
-          ],
+        child: Center(
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.grey.shade200, // Light gray color for the login box
+              borderRadius: BorderRadius.circular(15),
+            ),
+            padding: const EdgeInsets.all(20),
+            width: 350,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const [
+                _LoginForm(),
+                SizedBox(height: 20),
+                _LoginButton(),
+                SizedBox(height: 20),
+                _SignUpLink(),
+              ],
+            ),
+          ),
         ),
       ),
     );
@@ -99,11 +109,12 @@ class _TextFieldWidget extends StatelessWidget {
       obscureText: obscureText,
       decoration: InputDecoration(
         labelText: label,
-        labelStyle: const TextStyle(color: Colors.white),
+        labelStyle: const TextStyle(color: Colors.blueGrey),
         filled: true,
-        fillColor: Colors.white.withAlpha((0.5 * 255).toInt()),
+        fillColor: Colors.white.withAlpha((0.6 * 255).toInt()),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
+          borderSide: const BorderSide(color: Colors.blueGrey, width: 1.5),
         ),
       ),
     );
@@ -120,13 +131,16 @@ class _LoginButton extends StatelessWidget {
         // Handle login action here
       },
       style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.pink.shade300,
+        backgroundColor: Colors.white, // White background for the button
         padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
       ),
-      child: const Text('Login'),
+      child: const Text(
+        'Login',
+        style: TextStyle(color: Colors.blueAccent), // Blue accent text color
+      ),
     );
   }
 }
@@ -150,7 +164,7 @@ class _SignUpLink extends StatelessWidget {
           child: const Text(
             'Create one if you don\'t have',
             style: TextStyle(
-              color: Colors.blue,
+              color: Colors.blueAccent,
               decoration: TextDecoration.underline,
             ),
           ),
