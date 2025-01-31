@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:app_projects/login.dart'; // Import LoginPage here
 
 class TrendingPage extends StatelessWidget {
   const TrendingPage({super.key});
