@@ -85,11 +85,11 @@ class TrendingPage extends StatelessWidget {
                               LoginPage()), // Navigating to LoginPage
                     );
                   },
-                  child: const Text('Login'),
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 50, vertical: 15),
                   ),
+                  child: const Text('Login'),
                 ),
               ),
             ],
