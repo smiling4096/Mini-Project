@@ -21,27 +21,21 @@ class TrendingPage extends StatelessWidget {
         ),
       ),
       body: SingleChildScrollView(
-        // This makes the entire page scrollable
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Title
               const Text(
                 "Trending Memories",
                 style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
-
-              // Subheading Text Line
               const Text(
                 "Scroll through some of our best memories",
                 style: TextStyle(fontSize: 16, color: Colors.grey),
               ),
               const SizedBox(height: 16),
-
-              // Search Panel
               TextField(
                 decoration: InputDecoration(
                   labelText: 'Search',
@@ -52,10 +46,8 @@ class TrendingPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 20),
-
-              // Scrollable Content Section
               Container(
-                height: 300, // Set the desired height for the scroll section
+                height: 300,
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.grey.shade300),
                   borderRadius: BorderRadius.circular(8),
@@ -80,11 +72,17 @@ class TrendingPage extends StatelessWidget {
               ),
               const SizedBox(height: 20),
 
-              // Login Button at the End
+              // The Login Button at the end
               Center(
                 child: ElevatedButton(
                   onPressed: () {
-                    // Handle login action
+                    // Navigate to Login page when Login button is pressed
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              LoginPage()), // Navigating to LoginPage
+                    );
                   },
                   child: const Text('Login'),
                   style: ElevatedButton.styleFrom(
