@@ -31,9 +31,9 @@ class _AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Colors.pink.shade300,
-              Colors.blue.shade200
-            ], // Reduced blue color
+              Colors.pink.shade200,
+              Colors.purple.shade400
+            ], // Updated Colors
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             stops: [0.0, 1.0],
@@ -58,8 +58,7 @@ class _BodyWidget extends StatelessWidget {
         height: double.infinity,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage(
-                'assets/images/11.jpg'), // Use 11.jpg as background image
+            image: AssetImage('assets/images/11.jpg'), // Background image
             fit: BoxFit.cover,
           ),
         ),
@@ -73,7 +72,7 @@ class _BodyWidget extends StatelessWidget {
                 SizedBox(height: 20),
                 _LoginButton(),
                 SizedBox(height: 20),
-                _CreateAccountButton(), // New "Create Account" Button
+                _CreateAccountButton(),
               ],
             ),
           ),
@@ -138,7 +137,7 @@ class _LoginButton extends StatelessWidget {
         // Handle login action here
       },
       style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.white, // White background for the button
+        backgroundColor: Colors.white,
         padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
@@ -146,7 +145,7 @@ class _LoginButton extends StatelessWidget {
       ),
       child: const Text(
         'Login',
-        style: TextStyle(color: Colors.blueAccent), // Blue accent text color
+        style: TextStyle(color: Colors.blueAccent),
       ),
     );
   }
@@ -162,7 +161,7 @@ class _CreateAccountButton extends StatelessWidget {
         // Handle "Create Account" action here
       },
       style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.blueAccent, // Different background color
+        backgroundColor: Colors.blueAccent,
         padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
@@ -170,7 +169,7 @@ class _CreateAccountButton extends StatelessWidget {
       ),
       child: const Text(
         'Create Account if you don\'t have one',
-        style: TextStyle(color: Colors.white), // White text color for contrast
+        style: TextStyle(color: Colors.white),
       ),
     );
   }
