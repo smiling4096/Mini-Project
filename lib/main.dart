@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'trending_page.dart'; // Import the trending_page.dart file
+import 'splashscreen.dart'; // Import the separate splash screen file
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -12,7 +13,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: SimplePage(),
+      title: 'Eclectic',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: const SplashScreen(), // Start with SplashScreen
     );
   }
 }
