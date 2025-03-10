@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'signup.dart'; // Import SignUpPage
 
 void main() {
   runApp(MaterialApp(
@@ -30,10 +31,7 @@ class _AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
       flexibleSpace: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [
-              Colors.pink.shade200,
-              Colors.purple.shade400
-            ], // Updated Colors
+            colors: [Colors.pink.shade200, Colors.purple.shade400],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             stops: [0.0, 1.0],
@@ -58,7 +56,7 @@ class _BodyWidget extends StatelessWidget {
         height: double.infinity,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/11.jpg'), // Background image
+            image: AssetImage('assets/images/11.jpg'),
             fit: BoxFit.cover,
           ),
         ),
@@ -67,12 +65,12 @@ class _BodyWidget extends StatelessWidget {
             padding: const EdgeInsets.all(20),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                _LoginForm(),
-                SizedBox(height: 20),
-                _LoginButton(),
-                SizedBox(height: 20),
-                _CreateAccountButton(),
+              children: [
+                const _LoginForm(),
+                const SizedBox(height: 20),
+                const _LoginButton(),
+                const SizedBox(height: 20),
+                _CreateAccountButton(), // Navigate to SignUp Page
               ],
             ),
           ),
@@ -89,15 +87,9 @@ class _LoginForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        _TextFieldWidget(
-          label: 'Username',
-          obscureText: false,
-        ),
+        _TextFieldWidget(label: 'Username', obscureText: false),
         const SizedBox(height: 20),
-        _TextFieldWidget(
-          label: 'Password',
-          obscureText: true,
-        ),
+        _TextFieldWidget(label: 'Password', obscureText: true),
       ],
     );
   }
@@ -117,7 +109,7 @@ class _TextFieldWidget extends StatelessWidget {
         labelText: label,
         labelStyle: const TextStyle(color: Colors.blueGrey),
         filled: true,
-        fillColor: Colors.white.withAlpha((0.6 * 255).toInt()),
+        fillColor: Colors.white,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
           borderSide: const BorderSide(color: Colors.blueGrey, width: 1.5),
@@ -152,13 +144,15 @@ class _LoginButton extends StatelessWidget {
 }
 
 class _CreateAccountButton extends StatelessWidget {
-  const _CreateAccountButton();
-
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        // Handle "Create Account" action here
+        // Navigate to Sign Up Page
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const SignUpPage()),
+        );
       },
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.blueAccent,
