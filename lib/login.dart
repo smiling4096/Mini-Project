@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'signup.dart'; // Import SignUpPage
+import 'signup.dart';
+import 'home.dart';
 
 void main() {
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: const LoginPage(),
+    home: LoginPage(),
   ));
 }
 
@@ -34,7 +35,6 @@ class _AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
             colors: [Colors.pink.shade200, Colors.purple.shade400],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            stops: [0.0, 1.0],
           ),
         ),
       ),
@@ -54,7 +54,7 @@ class _BodyWidget extends StatelessWidget {
       child: Container(
         width: double.infinity,
         height: double.infinity,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/images/11.jpg'),
             fit: BoxFit.cover,
@@ -68,9 +68,7 @@ class _BodyWidget extends StatelessWidget {
               children: [
                 const _LoginForm(),
                 const SizedBox(height: 20),
-                const _LoginButton(),
-                const SizedBox(height: 20),
-                _CreateAccountButton(), // Navigate to SignUp Page
+                _CreateAccountButton(),
               ],
             ),
           ),
@@ -80,65 +78,88 @@ class _BodyWidget extends StatelessWidget {
   }
 }
 
-class _LoginForm extends StatelessWidget {
+class _LoginForm extends StatefulWidget {
   const _LoginForm();
+
+  @override
+  _LoginFormState createState() => _LoginFormState();
+}
+
+class _LoginFormState extends State<_LoginForm> {
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  void _login(BuildContext context) {
+    bool loginSuccess = _usernameController.text == 'user' &&
+        _passwordController.text == 'pass';
+
+    if (loginSuccess) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const HomePage()),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text('Login Failed. Please try again.'),
+          backgroundColor: Colors.red,
+          behavior: SnackBarBehavior.floating,
+          margin: const EdgeInsets.all(16),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        _TextFieldWidget(label: 'Username', obscureText: false),
+        TextField(
+          controller: _usernameController,
+          decoration: InputDecoration(
+            labelText: 'Username',
+            labelStyle: const TextStyle(color: Colors.blueGrey),
+            filled: true,
+            fillColor: Colors.white,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: const BorderSide(color: Colors.blueGrey, width: 1.5),
+            ),
+          ),
+        ),
         const SizedBox(height: 20),
-        _TextFieldWidget(label: 'Password', obscureText: true),
+        TextField(
+          controller: _passwordController,
+          obscureText: true,
+          decoration: InputDecoration(
+            labelText: 'Password',
+            labelStyle: const TextStyle(color: Colors.blueGrey),
+            filled: true,
+            fillColor: Colors.white,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: const BorderSide(color: Colors.blueGrey, width: 1.5),
+            ),
+          ),
+        ),
+        const SizedBox(height: 20),
+        ElevatedButton(
+          onPressed: () => _login(context),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.white,
+            padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+          child: const Text(
+            'Login',
+            style: TextStyle(color: Colors.blueAccent),
+          ),
+        ),
       ],
-    );
-  }
-}
-
-class _TextFieldWidget extends StatelessWidget {
-  final String label;
-  final bool obscureText;
-
-  const _TextFieldWidget({required this.label, required this.obscureText});
-
-  @override
-  Widget build(BuildContext context) {
-    return TextField(
-      obscureText: obscureText,
-      decoration: InputDecoration(
-        labelText: label,
-        labelStyle: const TextStyle(color: Colors.blueGrey),
-        filled: true,
-        fillColor: Colors.white,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(color: Colors.blueGrey, width: 1.5),
-        ),
-      ),
-    );
-  }
-}
-
-class _LoginButton extends StatelessWidget {
-  const _LoginButton();
-
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () {
-        // Handle login action here
-      },
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.white,
-        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
-      ),
-      child: const Text(
-        'Login',
-        style: TextStyle(color: Colors.blueAccent),
-      ),
     );
   }
 }
@@ -148,7 +169,6 @@ class _CreateAccountButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        // Navigate to Sign Up Page
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => const SignUpPage()),
