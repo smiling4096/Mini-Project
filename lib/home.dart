@@ -55,6 +55,7 @@ class _HomePageState extends State<HomePage> {
         child: SingleChildScrollView(
           controller: _scrollController,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildCategoryCard(context, "Location", "assets/images/h1.jpg",
                   const LocationPage()),
@@ -79,8 +80,18 @@ class _HomePageState extends State<HomePage> {
                       : "assets/images/button5.jpg", () {
                 if (!isAtTop) scrollToTop();
               }),
-              _buildBottomIcon("assets/images/button2.jpg", () {}),
-              _buildBottomIcon("assets/images/button3.jpg", () {}),
+              _buildBottomIcon("assets/images/button2.jpg", () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const CatererPage()));
+              }),
+              _buildBottomIcon("assets/images/button3.jpg", () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const PhotographerPage()));
+              }),
               _buildBottomIcon("assets/images/button4.jpg", () {}),
             ],
           ),
@@ -91,42 +102,41 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildCategoryCard(
       BuildContext context, String title, String imagePath, Widget page) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => page),
-        );
-      },
-      child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 10),
-        width: double.infinity,
-        height: 150,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
-          image: DecorationImage(
-            image: AssetImage(imagePath),
-            fit: BoxFit.cover,
-          ),
-        ),
-        alignment: Alignment.center,
-        child: Container(
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            color: Colors.black
-                .withAlpha((0.5 * 255).toInt()), // Fix opacity warning
-            borderRadius: BorderRadius.circular(16),
-          ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(bottom: 8.0),
           child: Text(
             title,
             style: const TextStyle(
-              color: Colors.white,
-              fontSize: 24,
+              color: Colors.black,
+              fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
           ),
         ),
-      ),
+        GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => page),
+            );
+          },
+          child: Container(
+            margin: const EdgeInsets.symmetric(vertical: 10),
+            width: double.infinity,
+            height: 150,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              image: DecorationImage(
+                image: AssetImage(imagePath),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 
