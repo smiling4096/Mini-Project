@@ -67,8 +67,6 @@ class _BodyWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const _LoginForm(),
-                const SizedBox(height: 20),
-                _CreateAccountButton(),
               ],
             ),
           ),
@@ -90,10 +88,11 @@ class _LoginFormState extends State<_LoginForm> {
   final TextEditingController _passwordController = TextEditingController();
 
   void _login(BuildContext context) {
-    bool loginSuccess = _usernameController.text == 'user' &&
-        _passwordController.text == 'pass';
+    String username = _usernameController.text;
+    String password = _passwordController.text;
 
-    if (loginSuccess) {
+    // Hardcoded credentials (for testing)
+    if (username == "admin" && password == "12345") {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const HomePage()),
@@ -101,12 +100,11 @@ class _LoginFormState extends State<_LoginForm> {
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: const Text('Login Failed. Please try again.'),
+          content: const Text('Login Failed. Invalid credentials.'),
           backgroundColor: Colors.red,
           behavior: SnackBarBehavior.floating,
-          margin: const EdgeInsets.all(16),
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          margin: const EdgeInsets.all(20),
+          duration: const Duration(seconds: 2),
         ),
       );
     }
@@ -125,7 +123,6 @@ class _LoginFormState extends State<_LoginForm> {
             fillColor: Colors.white,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
-              borderSide: const BorderSide(color: Colors.blueGrey, width: 1.5),
             ),
           ),
         ),
@@ -140,7 +137,6 @@ class _LoginFormState extends State<_LoginForm> {
             fillColor: Colors.white,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
-              borderSide: const BorderSide(color: Colors.blueGrey, width: 1.5),
             ),
           ),
         ),
@@ -159,32 +155,27 @@ class _LoginFormState extends State<_LoginForm> {
             style: TextStyle(color: Colors.blueAccent),
           ),
         ),
-      ],
-    );
-  }
-}
-
-class _CreateAccountButton extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const SignUpPage()),
-        );
-      },
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.blueAccent,
-        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
+        const SizedBox(height: 20),
+        ElevatedButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const SignUpPage()),
+            );
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.blueAccent,
+            padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+          child: const Text(
+            'Create Account if you don\'t have one',
+            style: TextStyle(color: Colors.white),
+          ),
         ),
-      ),
-      child: const Text(
-        'Create Account if you don\'t have one',
-        style: TextStyle(color: Colors.white),
-      ),
+      ],
     );
   }
 }
