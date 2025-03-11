@@ -7,7 +7,7 @@ class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
-  _HomePageState createState() => _HomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
@@ -74,13 +74,14 @@ class _HomePageState extends State<HomePage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               _buildBottomIcon(
-                  isAtTop ? "assets/images/b1.png" : "assets/images/b5.png",
-                  () {
+                  isAtTop
+                      ? "assets/images/button1.jpg"
+                      : "assets/images/button5.jpg", () {
                 if (!isAtTop) scrollToTop();
               }),
-              _buildBottomIcon("assets/images/b2.png", () {}),
-              _buildBottomIcon("assets/images/b3.png", () {}),
-              _buildBottomIcon("assets/images/b4.png", () {}),
+              _buildBottomIcon("assets/images/button2.jpg", () {}),
+              _buildBottomIcon("assets/images/button3.jpg", () {}),
+              _buildBottomIcon("assets/images/button4.jpg", () {}),
             ],
           ),
         ),
@@ -112,7 +113,8 @@ class _HomePageState extends State<HomePage> {
         child: Container(
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
-            color: Colors.black.withOpacity(0.5),
+            color: Colors.black
+                .withAlpha((0.5 * 255).toInt()), // Fix opacity warning
             borderRadius: BorderRadius.circular(16),
           ),
           child: Text(
