@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart'; // ✅ Import Firebase
 import 'trending_page.dart'; // Import the trending_page.dart file
 import 'splashscreen.dart'; // Import the separate splash screen file
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding
+      .ensureInitialized(); // ✅ Ensures async code runs properly
+  await Firebase.initializeApp(); // ✅ Initializes Firebase
   runApp(const MyApp());
 }
 

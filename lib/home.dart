@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'location.dart';
 import 'caterer.dart';
 import 'photographer.dart';
+import 'cart.dart';
+import 'chatbot.dart';
+import 'team.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -63,6 +66,17 @@ class _HomePageState extends State<HomePage> {
                   const CatererPage()),
               _buildCategoryCard(context, "Photographers",
                   "assets/images/h3.jpg", const PhotographerPage()),
+              _buildCategoryCard(context, "Cost", "assets/images/h4.jpg",
+                  const CartPage()), // Example navigation
+              _buildCategoryCard(context, "Offers", "assets/images/h5.jpg",
+                  const CartPage()), // Example navigation
+              _buildCategoryCard(context, "Decoration", "assets/images/h6.jpg",
+                  const CartPage()), // Example navigation
+              _buildCategoryCard(
+                  context,
+                  "Screening (For Formal Events Only)",
+                  "assets/images/screening.jpg",
+                  const CartPage()), // Example navigation
             ],
           ),
         ),
@@ -81,18 +95,19 @@ class _HomePageState extends State<HomePage> {
                 if (!isAtTop) scrollToTop();
               }),
               _buildBottomIcon("assets/images/button2.jpg", () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const CatererPage()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const CartPage()));
               }),
               _buildBottomIcon("assets/images/button3.jpg", () {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const PhotographerPage()));
+                        builder: (context) => const ChatbotPage()));
               }),
-              _buildBottomIcon("assets/images/button4.jpg", () {}),
+              _buildBottomIcon("assets/images/button4.jpg", () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const TeamPage()));
+              }),
             ],
           ),
         ),
@@ -143,7 +158,7 @@ class _HomePageState extends State<HomePage> {
   Widget _buildBottomIcon(String imagePath, VoidCallback onTap) {
     return GestureDetector(
       onTap: onTap,
-      child: Image.asset(imagePath, width: 30, height: 30),
+      child: Image.asset(imagePath, width: 40, height: 40), // Increased size
     );
   }
 }
